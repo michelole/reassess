@@ -7,3 +7,12 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
+.classpath
+.project
+.settings
+
+# MacOS stuff
+*.DS_Store
+
+# Excel temporary
+~$*.xls*
