@@ -9,6 +9,7 @@
 			<property name="javax.persistence.jdbc.user" value="reassess" />
 			<property name="javax.persistence.jdbc.password" value="password" />
 
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL94Dialect" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.hbm2ddl.auto" value="validate" />
 			<property name="hibernate.temp.use_jdbc_metadata_defaults" value="false" />
