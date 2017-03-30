@@ -12,6 +12,8 @@ import org.apache.logging.log4j.Logger;
 import at.medunigraz.imi.reassess.conceptmapper.ConceptMapper;
 import bioc.BioCDocument;
 import gov.nih.nlm.nls.metamap.document.FreeText;
+import gov.nih.nlm.nls.metamap.lite.resultformats.ResultFormatter;
+import gov.nih.nlm.nls.metamap.lite.resultformats.ResultFormatterRegistry;
 import gov.nih.nlm.nls.metamap.lite.types.Entity;
 import gov.nih.nlm.nls.metamap.lite.types.Ev;
 import gov.nih.nlm.nls.ner.MetaMapLite;
@@ -24,6 +26,8 @@ public class MetaMapLiteFacade implements ConceptMapper {
 
 	private MetaMapLite metaMapLiteInst;
 
+	private Properties properties;
+
 	public static MetaMapLiteFacade getInstance() {
 		return instance;
 	}
@@ -31,23 +35,23 @@ public class MetaMapLiteFacade implements ConceptMapper {
 	private MetaMapLiteFacade() {
 		LOG.info("Building MetaMap instance...");
 
-		Properties myProperties = MetaMapLite.getDefaultConfiguration();
+		properties = MetaMapLite.getDefaultConfiguration();
 
 		String configPropertyFilename = System.getProperty("metamaplite.property.file",
 				getClass().getResource("/metamaplite.properties").getFile());
 
 		try {
-			myProperties.load(new FileReader(configPropertyFilename));
+			properties.load(new FileReader(configPropertyFilename));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		MetaMapLite.expandModelsDir(myProperties);
-		MetaMapLite.expandIndexDir(myProperties);
+		MetaMapLite.expandModelsDir(properties);
+		MetaMapLite.expandIndexDir(properties);
 
 		try {
-			metaMapLiteInst = new MetaMapLite(myProperties);
+			metaMapLiteInst = new MetaMapLite(properties);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -58,9 +62,9 @@ public class MetaMapLiteFacade implements ConceptMapper {
 
 	public List<String> map(String text) {
 		List<String> ret = new ArrayList<String>();
-		
+
 		List<Entity> entityList = process(text);
-		
+
 		for (Entity entity : entityList) {
 			for (Ev ev : entity.getEvSet()) {
 				ret.add(ev.getConceptInfo().getCUI());
@@ -74,7 +78,7 @@ public class MetaMapLiteFacade implements ConceptMapper {
 	private List<Entity> process(String text) {
 		int length = text.length();
 		LOG.debug("Processing \"{}\"...", text.substring(0, Math.min(length, 50)));
-		
+
 		long start = System.currentTimeMillis();
 
 		BioCDocument document = FreeText.instantiateBioCDocument(text);
@@ -89,12 +93,12 @@ public class MetaMapLiteFacade implements ConceptMapper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		long end = System.currentTimeMillis();
-		
+
 		float duration = (end - start) / 1000f;
 
-		LOG.debug("Processed {} chars in {} sec ({} chars/sec).", length, duration, length/duration);
+		LOG.debug("Processed {} chars in {} sec ({} chars/sec).", length, duration, length / duration);
 
 		return entityList;
 	}
