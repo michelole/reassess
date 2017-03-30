@@ -19,11 +19,11 @@ import gov.nih.nlm.nls.ner.MetaMapLite;
 public class MetaMapLiteFacade implements ConceptMapper {
 
 	private static final Logger LOG = LogManager.getLogger();
-	
+
 	private static final MetaMapLiteFacade instance = new MetaMapLiteFacade();
 
 	private MetaMapLite metaMapLiteInst;
-	
+
 	public static MetaMapLiteFacade getInstance() {
 		return instance;
 	}
@@ -52,13 +52,30 @@ public class MetaMapLiteFacade implements ConceptMapper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		LOG.info("Building MetaMap instance finished.");
 	}
 
 	public List<String> map(String text) {
 		List<String> ret = new ArrayList<String>();
-		LOG.debug("Mapping \"{}\"...", text.substring(0, 50));
+		
+		List<Entity> entityList = process(text);
+		
+		for (Entity entity : entityList) {
+			for (Ev ev : entity.getEvSet()) {
+				ret.add(ev.getConceptInfo().getCUI());
+				LOG.trace(ev);
+			}
+		}
+
+		return ret;
+	}
+
+	private List<Entity> process(String text) {
+		int length = text.length();
+		LOG.debug("Processing \"{}\"...", text.substring(0, Math.min(length, 50)));
+		
+		long start = System.currentTimeMillis();
 
 		BioCDocument document = FreeText.instantiateBioCDocument(text);
 		document.setID("1");
@@ -72,16 +89,14 @@ public class MetaMapLiteFacade implements ConceptMapper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		for (Entity entity : entityList) {
-			for (Ev ev : entity.getEvSet()) {
-				ret.add(ev.getConceptInfo().getCUI());
-				LOG.trace(ev);
-			}
-		}
 		
-		LOG.debug("Mapped.");
+		long end = System.currentTimeMillis();
+		
+		float duration = (end - start) / 1000f;
 
-		return ret;
+		LOG.debug("Processed {} chars in {} sec ({} chars/sec).", length, duration, length/duration);
+
+		return entityList;
 	}
 
 }
