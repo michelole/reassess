@@ -20,16 +20,15 @@ public class MetaMapLiteFacade implements ConceptMapper {
 
 	private static final Logger LOG = LogManager.getLogger();
 
-	/** location of metamaplite.properties configuration file */
-	static String configPropertyFilename = System.getProperty("metamaplite.property.file",
-			"src/main/resources/metamaplite.properties");
-
 	private MetaMapLite metaMapLiteInst;
 
 	public MetaMapLiteFacade() {
 		LOG.info("Building MetaMap instance...");
 
 		Properties myProperties = MetaMapLite.getDefaultConfiguration();
+
+		String configPropertyFilename = System.getProperty("metamaplite.property.file",
+				getClass().getResource("/metamaplite.properties").getFile());
 
 		try {
 			myProperties.load(new FileReader(configPropertyFilename));
@@ -68,7 +67,7 @@ public class MetaMapLiteFacade implements ConceptMapper {
 		for (Entity entity : entityList) {
 			for (Ev ev : entity.getEvSet()) {
 				ret.add(ev.getConceptInfo().getCUI());
-				LOG.debug(ev.getConceptInfo().getCUI() + "|" + entity.getMatchedText());
+				LOG.debug(ev);
 			}
 		}
 
