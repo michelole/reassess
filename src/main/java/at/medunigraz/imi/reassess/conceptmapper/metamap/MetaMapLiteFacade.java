@@ -100,7 +100,7 @@ public class MetaMapLiteFacade implements ConceptMapper {
 
 		long end = System.currentTimeMillis();
 
-		float duration = (end - start) / 1000f;
+		float duration = (end - start + 1) / 1000f;
 
 		LOG.debug("Processed {} chars in {} sec ({} chars/sec).", length, duration, length / duration);
 
@@ -147,8 +147,6 @@ public class MetaMapLiteFacade implements ConceptMapper {
 		}
 
 		sb.append(text.substring(i, length));
-		
-		System.out.println(sb);
 
 		return sb.toString();
 	}
