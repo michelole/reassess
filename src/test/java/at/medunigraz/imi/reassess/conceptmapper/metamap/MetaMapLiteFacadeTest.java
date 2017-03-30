@@ -11,11 +11,23 @@ public class MetaMapLiteFacadeTest extends TestCase {
 		MetaMapLiteFacade mm = MetaMapLiteFacade.getInstance();
 
 		List<String> expected = new ArrayList<String>();
-		expected.add("C0030705"); // Patient
-		expected.add("C0006142"); // Malignant Breast Neoplasm
+		expected.add("C0030705"); // Patients
+		expected.add("C0006142"); // Malignant neoplasm of breast
 		expected.add("C0678222"); // Breast Carcinoma
 		List<String> actual = mm.map("The patient has breast cancer.");
 
+		assertEquals(expected, actual);
+	}
+
+	public void testAnnotate() {
+		MetaMapLiteFacade mm = MetaMapLiteFacade.getInstance();
+
+		String actual = mm.annotate("The patient has breast cancer.");
+		String expected = "The <patient|C0030705:Patients|> has <breast cancer|C0006142:Malignant neoplasm of breast|C0678222:Breast Carcinoma|>.";
+		assertEquals(expected, actual);
+
+		actual = mm.annotate("History of present illness");
+		expected = "<History of present illness|C0262512:History of present illness|C0488508:History of present illness:Finding:Point in time:^Patient:Nominal:Reported|>";
 		assertEquals(expected, actual);
 	}
 }

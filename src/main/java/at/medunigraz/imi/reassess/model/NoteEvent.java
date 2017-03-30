@@ -50,6 +50,10 @@ public class NoteEvent {
 	public List<String> getCUIs() {
 		return MetaMapLiteFacade.getInstance().map(getText());
 	}
+	
+	public String getAnnotatedText() {
+		return MetaMapLiteFacade.getInstance().annotate(getText());
+	}
 
 	public Integer getRowId() {
 		return rowId;

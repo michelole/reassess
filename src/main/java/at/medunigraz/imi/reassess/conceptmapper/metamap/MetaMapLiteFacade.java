@@ -12,8 +12,7 @@ import org.apache.logging.log4j.Logger;
 import at.medunigraz.imi.reassess.conceptmapper.ConceptMapper;
 import bioc.BioCDocument;
 import gov.nih.nlm.nls.metamap.document.FreeText;
-import gov.nih.nlm.nls.metamap.lite.resultformats.ResultFormatter;
-import gov.nih.nlm.nls.metamap.lite.resultformats.ResultFormatterRegistry;
+import gov.nih.nlm.nls.metamap.lite.types.ConceptInfo;
 import gov.nih.nlm.nls.metamap.lite.types.Entity;
 import gov.nih.nlm.nls.metamap.lite.types.Ev;
 import gov.nih.nlm.nls.ner.MetaMapLite;
@@ -101,6 +100,48 @@ public class MetaMapLiteFacade implements ConceptMapper {
 		LOG.debug("Processed {} chars in {} sec ({} chars/sec).", length, duration, length / duration);
 
 		return entityList;
+	}
+
+	public String annotate(String text) {
+		List<Entity> entityList = process(text);
+
+		int length = text.length();
+
+		StringBuilder sb = new StringBuilder(length);
+
+		int i = 0;
+		for (Entity entity : entityList) {
+			int start = entity.getStart();
+
+			// Skip submatches
+			if (start < i) {
+				continue;
+			}
+
+			String matched = entity.getMatchedText();
+
+			sb.append(text.substring(i, start));
+			sb.append("<");
+			sb.append(matched);
+			sb.append("|");
+
+			for (Ev ev : entity.getEvSet()) {
+				ConceptInfo conceptInfo = ev.getConceptInfo();
+				sb.append(conceptInfo.getCUI());
+				sb.append(":");
+				sb.append(conceptInfo.getPreferredName());
+				sb.append("|");
+			}
+			sb.append(">");
+
+			i = entity.getStart() + entity.getLength();
+		}
+
+		sb.append(text.substring(i, length));
+		
+		System.out.println(sb);
+
+		return sb.toString();
 	}
 
 }
