@@ -19,10 +19,16 @@ import gov.nih.nlm.nls.ner.MetaMapLite;
 public class MetaMapLiteFacade implements ConceptMapper {
 
 	private static final Logger LOG = LogManager.getLogger();
+	
+	private static final MetaMapLiteFacade instance = new MetaMapLiteFacade();
 
 	private MetaMapLite metaMapLiteInst;
+	
+	public static MetaMapLiteFacade getInstance() {
+		return instance;
+	}
 
-	public MetaMapLiteFacade() {
+	private MetaMapLiteFacade() {
 		LOG.info("Building MetaMap instance...");
 
 		Properties myProperties = MetaMapLite.getDefaultConfiguration();
@@ -46,6 +52,8 @@ public class MetaMapLiteFacade implements ConceptMapper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		LOG.info("Building MetaMap instance finished.");
 	}
 
 	public List<String> map(String text) {

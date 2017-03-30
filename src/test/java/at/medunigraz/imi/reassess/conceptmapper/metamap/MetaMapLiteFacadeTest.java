@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 public class MetaMapLiteFacadeTest extends TestCase {
 
 	public void testMap() {
-		MetaMapLiteFacade mm = new MetaMapLiteFacade();
+		MetaMapLiteFacade mm = MetaMapLiteFacade.getInstance();
 
 		List<String> expected = new ArrayList<String>();
 		expected.add("C0030705"); // Patient
