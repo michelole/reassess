@@ -33,8 +33,8 @@ public class MetaMapLiteFacadeTest extends TestCase {
 		assertEquals(expected, actual);
 		
 		// Double spacing
-		actual = mm.annotate("headache.  diabetes.");
-		expected = "<headache|C0018681:Headache|C2096315:ENT surgical result nose headache|>.  <diabetes|C0011849:Diabetes Mellitus|C0011847:Diabetes|C0011860:Diabetes Mellitus, Non-Insulin-Dependent|>.";
+		actual = mm.annotate("headache.  headache.");
+		expected = "<headache|C0018681:Headache|C2096315:ENT surgical result nose headache|>.  <headache|C2096315:ENT surgical result nose headache|C0018681:Headache|>.";
 		assertEquals(expected, actual);
 	}
 }
