@@ -59,12 +59,17 @@ public class MetaMapLiteFacade implements ConceptMapper {
 		LOG.info("Building MetaMap instance finished.");
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see at.medunigraz.imi.reassess.conceptmapper.ConceptMapper#map(java.lang.String)
+	 */
 	public List<String> map(String text) {
 		List<String> ret = new ArrayList<String>();
 
 		List<Entity> entityList = process(text);
 
 		for (Entity entity : entityList) {
+			// TODO Should submatches be skipped as in annotate()?
 			for (Ev ev : entity.getEvSet()) {
 				ret.add(ev.getConceptInfo().getCUI());
 				LOG.trace(ev);
@@ -102,6 +107,10 @@ public class MetaMapLiteFacade implements ConceptMapper {
 		return entityList;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see at.medunigraz.imi.reassess.conceptmapper.ConceptMapper#annotate(java.lang.String)
+	 */
 	public String annotate(String text) {
 		List<Entity> entityList = process(text);
 
