@@ -8,8 +8,6 @@ public class NoteEventDAOTest extends TestCase {
 	public void testGet() {
 		NoteEventDAO noteDao = new NoteEventDAO();
 		NoteEvent note = noteDao.get(1);
-		
-		System.out.println(note);
 
 		assertNotNull(note.getSubjectId());
 		assertNotNull(note.getHospitalAdmissionId());
