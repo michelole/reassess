@@ -1,11 +1,14 @@
 package at.medunigraz.imi.reassess.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import at.medunigraz.imi.reassess.conceptmapper.metamap.MetaMapLiteFacade;
 
 @Entity
 @Table(name = "noteevents", schema = "mimiciii")
@@ -43,6 +46,10 @@ public class NoteEvent {
 
 	@Column(name = "text")
 	private String text;
+	
+	public List<String> getCUIs() {
+		return MetaMapLiteFacade.getInstance().map(getText());
+	}
 
 	public Integer getRowId() {
 		return rowId;
