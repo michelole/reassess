@@ -58,7 +58,7 @@ public class MetaMapLiteFacade implements ConceptMapper {
 
 	public List<String> map(String text) {
 		List<String> ret = new ArrayList<String>();
-		LOG.debug("Mapping [" + text + "]");
+		LOG.debug("Mapping \"{}\"...", text.substring(0, 50));
 
 		BioCDocument document = FreeText.instantiateBioCDocument(text);
 		document.setID("1");
@@ -75,9 +75,11 @@ public class MetaMapLiteFacade implements ConceptMapper {
 		for (Entity entity : entityList) {
 			for (Ev ev : entity.getEvSet()) {
 				ret.add(ev.getConceptInfo().getCUI());
-				LOG.debug(ev);
+				LOG.trace(ev);
 			}
 		}
+		
+		LOG.debug("Mapped.");
 
 		return ret;
 	}
