@@ -1,10 +1,15 @@
 package at.medunigraz.imi.reassess.dao;
 
-import at.medunigraz.imi.reassess.model.NoteEvent;
-import junit.framework.TestCase;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
-public class NoteEventDAOTest extends TestCase {
+import org.junit.Test;
+
+import at.medunigraz.imi.reassess.model.NoteEvent;
+
+public class NoteEventDAOTest {
 	
+	@Test
 	public void testGet() {
 		NoteEventDAO noteDao = new NoteEventDAO();
 		NoteEvent note = noteDao.get(1);

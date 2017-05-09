@@ -1,10 +1,14 @@
 package at.medunigraz.imi.reassess.model;
 
-import at.medunigraz.imi.reassess.dao.NoteEventDAO;
-import junit.framework.TestCase;
+import static org.junit.Assert.assertTrue;
 
-public class NoteEventTest extends TestCase {
+import org.junit.Test;
+
+import at.medunigraz.imi.reassess.dao.NoteEventDAO;
+
+public class NoteEventTest {
 	
+	@Test
 	public void testGetCUIs() {
 		NoteEventDAO noteDao = new NoteEventDAO();
 		NoteEvent note = noteDao.get(1);
@@ -13,6 +17,7 @@ public class NoteEventTest extends TestCase {
 		assertTrue(note.getCUIs().size() > 10);
 	}
 	
+	@Test
 	public void testGetAnnotatedText() {
 		NoteEventDAO noteDao = new NoteEventDAO();
 		NoteEvent note = noteDao.get(1);

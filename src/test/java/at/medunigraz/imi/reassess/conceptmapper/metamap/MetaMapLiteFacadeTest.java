@@ -1,12 +1,15 @@
 package at.medunigraz.imi.reassess.conceptmapper.metamap;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class MetaMapLiteFacadeTest extends TestCase {
+public class MetaMapLiteFacadeTest {
 
+	@Test
 	public void testMap() {
 		MetaMapLiteFacade mm = MetaMapLiteFacade.getInstance();
 
@@ -19,6 +22,7 @@ public class MetaMapLiteFacadeTest extends TestCase {
 		assertEquals(expected, actual);
 	}
 
+	@Test
 	public void testAnnotate() {
 		MetaMapLiteFacade mm = MetaMapLiteFacade.getInstance();
 
@@ -31,7 +35,7 @@ public class MetaMapLiteFacadeTest extends TestCase {
 		actual = mm.annotate("History of present illness");
 		expected = "<History of present illness|C0262512:History of present illness|C0488508:History of present illness:Finding:Point in time:^Patient:Nominal:Reported|>";
 		assertEquals(expected, actual);
-		
+
 		// Double spacing
 		actual = mm.annotate("headache.  headache.");
 		expected = "<headache|C0018681:Headache|C2096315:ENT surgical result nose headache|>.  <headache|C2096315:ENT surgical result nose headache|C0018681:Headache|>.";
