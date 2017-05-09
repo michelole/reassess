@@ -31,7 +31,7 @@ public class NoteEventDAOTest {
 		int pageSize = 10;
 		
 		NoteEventDAO noteDao = new NoteEventDAO();
-		List<NoteEvent> notes = noteDao.list(1, pageSize);
+		List<NoteEvent> notes = noteDao.list(0, pageSize);
 		
 		assertEquals(pageSize, notes.size());
 	}

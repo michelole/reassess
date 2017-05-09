@@ -24,7 +24,7 @@ public class NoteEventDAO {
 	 * Gets a paginated list of notes.
 	 * 
 	 * @param first
-	 *            First result.
+	 *            First result, starting with 0.
 	 * @param max
 	 *            Maximum number of results
 	 * @return List of notes.
