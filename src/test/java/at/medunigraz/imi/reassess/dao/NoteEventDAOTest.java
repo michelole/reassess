@@ -28,12 +28,14 @@ public class NoteEventDAOTest {
 	
 	@Test
 	public void testList() {
-		int pageSize = 10;
+		final int pageSize = 10;
 		
 		NoteEventDAO noteDao = new NoteEventDAO();
 		List<NoteEvent> notes = noteDao.list(0, pageSize);
 		
 		assertEquals(pageSize, notes.size());
+		
+		assertEquals(1, notes.get(0).getRowId().intValue());
 	}
 
 }

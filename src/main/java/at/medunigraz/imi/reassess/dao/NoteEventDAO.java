@@ -3,7 +3,9 @@ package at.medunigraz.imi.reassess.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import at.medunigraz.imi.reassess.model.NoteEvent;
 
@@ -30,8 +32,10 @@ public class NoteEventDAO {
 	 * @return List of notes.
 	 */
 	public List<NoteEvent> list(int first, int max) {
-		CriteriaQuery<NoteEvent> criteria = em.getCriteriaBuilder().createQuery(NoteEvent.class);
-		criteria.select(criteria.from(NoteEvent.class));
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<NoteEvent> criteria = cb.createQuery(NoteEvent.class);
+		Root<NoteEvent> root = criteria.from(NoteEvent.class);
+		criteria.select(root).orderBy(cb.asc(root.get("rowId")));
 		return em.createQuery(criteria).setFirstResult(first).setMaxResults(max).getResultList();
 	}
 }
