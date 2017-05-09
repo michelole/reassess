@@ -20,6 +20,15 @@ public class NoteEventDAO {
 		return note;
 	}
 
+	/**
+	 * Gets a paginated list of notes.
+	 * 
+	 * @param first
+	 *            First result.
+	 * @param max
+	 *            Maximum number of results
+	 * @return List of notes.
+	 */
 	public List<NoteEvent> list(int first, int max) {
 		CriteriaQuery<NoteEvent> criteria = em.getCriteriaBuilder().createQuery(NoteEvent.class);
 		criteria.select(criteria.from(NoteEvent.class));
