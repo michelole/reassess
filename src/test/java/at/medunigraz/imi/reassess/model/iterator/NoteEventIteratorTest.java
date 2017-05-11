@@ -47,8 +47,6 @@ public class NoteEventIteratorTest {
 		}
 		long end = System.currentTimeMillis();
 		
-		System.out.println(end - start);
-		
 		// Assuming that 1000 records will be read in less than 10 seconds...
 		assertThat(end - start, lessThan(10000l));
 	}
