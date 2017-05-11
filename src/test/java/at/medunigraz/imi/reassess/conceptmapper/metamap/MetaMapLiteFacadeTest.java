@@ -3,11 +3,15 @@ package at.medunigraz.imi.reassess.conceptmapper.metamap;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 
 public class MetaMapLiteFacadeTest {
+	
+	private static final String BREAST_CANCER = "The patient has breast cancer.";
 
 	@Test
 	public void testMap() {
@@ -17,9 +21,33 @@ public class MetaMapLiteFacadeTest {
 		expected.add("C0030705"); // Patients
 		expected.add("C0006142"); // Malignant neoplasm of breast
 		expected.add("C0678222"); // Breast Carcinoma
-		List<String> actual = mm.map("The patient has breast cancer.");
+		List<String> actual = mm.map(BREAST_CANCER);
 
 		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testUniqueMap() {
+		final String doubledText = BREAST_CANCER + ". " + BREAST_CANCER;
+		MetaMapLiteFacade mm = MetaMapLiteFacade.getInstance();
+		
+		List<String> expectedList = new ArrayList<String>();
+		// Expects doubled CUIs
+		expectedList.add("C0030705"); // Patients
+		expectedList.add("C0006142"); // Malignant neoplasm of breast
+		expectedList.add("C0678222"); // Breast Carcinoma
+		expectedList.add("C0030705"); // Patients
+		expectedList.add("C0006142"); // Malignant neoplasm of breast
+		expectedList.add("C0678222"); // Breast Carcinoma
+		List<String> actualList = mm.map(doubledText);
+		assertEquals(expectedList, actualList);	
+		
+		Set<String> expectedSet = new HashSet<String>();
+		expectedSet.add("C0006142"); // Malignant neoplasm of breast
+		expectedSet.add("C0678222"); // Breast Carcinoma
+		expectedSet.add("C0030705"); // Patients
+		Set<String> actualSet = mm.uniqueMap(doubledText);
+		assertEquals(expectedSet, actualSet);
 	}
 
 	@Test
@@ -27,7 +55,7 @@ public class MetaMapLiteFacadeTest {
 		MetaMapLiteFacade mm = MetaMapLiteFacade.getInstance();
 
 		// Basic test
-		String actual = mm.annotate("The patient has breast cancer.");
+		String actual = mm.annotate(BREAST_CANCER);
 		String expected = "The <patient|C0030705:Patients|> has <breast cancer|C0006142:Malignant neoplasm of breast|C0678222:Breast Carcinoma|>.";
 		assertEquals(expected, actual);
 

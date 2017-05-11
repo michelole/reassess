@@ -2,6 +2,7 @@ package at.medunigraz.imi.reassess.model;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -49,6 +50,10 @@ public class NoteEvent {
 	
 	public List<String> getCUIs() {
 		return MetaMapLiteFacade.getInstance().map(getText());
+	}
+	
+	public Set<String> getUniqueCUIs() {		
+		return MetaMapLiteFacade.getInstance().uniqueMap(getText());
 	}
 	
 	public String getAnnotatedText() {
