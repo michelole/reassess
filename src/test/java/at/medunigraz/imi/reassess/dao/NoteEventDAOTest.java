@@ -37,5 +37,12 @@ public class NoteEventDAOTest {
 		
 		assertEquals(1678764, notes.get(0).getRowId().intValue());
 	}
+	
+	@Test
+	public void testCount() {
+		NoteEventDAO noteDao = new NoteEventDAO();
+		long actual = noteDao.count();
+		assertEquals(1851344, actual);
+	}
 
 }

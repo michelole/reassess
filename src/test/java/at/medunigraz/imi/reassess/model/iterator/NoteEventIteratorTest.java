@@ -8,9 +8,15 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import at.medunigraz.imi.reassess.dao.NoteEventDAO;
+
 public class NoteEventIteratorTest {
 	
-	private static final int COUNT = 2083180;
+	private int count;
+	
+	public NoteEventIteratorTest() {
+		count = (int) (new NoteEventDAO()).count();
+	}
 
 	@Test
 	public void testIterator() {
@@ -20,17 +26,17 @@ public class NoteEventIteratorTest {
 		assertEquals(1678764, iter.next().getRowId().intValue());
 		
 		iter.fastForwardTo(1000);
-		assertEquals(1261069, iter.next().getRowId().intValue());
+		assertEquals(185635, iter.next().getRowId().intValue());
 		
 		// When reading the last results, it should have less elements than the pagesize.
 		int halfPage = NoteEventIterator.PAGESIZE / 2;
-		iter.fastForwardTo(COUNT - halfPage);
+		iter.fastForwardTo(count - halfPage);
 		int actual = 0;
 		for (; iter.hasNext(); actual++, iter.next());
 		assertEquals(halfPage, actual);
 
 		// When reading after the end, it should has no elements.
-		iter.fastForwardTo(COUNT);
+		iter.fastForwardTo(count);
 		assertFalse(iter.hasNext());
 	}
 	
@@ -39,7 +45,7 @@ public class NoteEventIteratorTest {
 		final int records = 100;
 		
 		NoteEventIterator iter = new NoteEventIterator();
-		iter.fastForwardTo(COUNT - records);
+		iter.fastForwardTo(count - records);
 		
 		long start = System.currentTimeMillis();
 		while (iter.hasNext()) {
