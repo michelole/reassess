@@ -18,7 +18,7 @@ public class NoteEventDAOTest {
 		NoteEvent note = noteDao.get(1);
 
 		assertNotNull(note.getSubjectId());
-		assertNotNull(note.getHospitalAdmissionId());
+		assertNotNull(note.getAdmissionId());
 		assertNotNull(note.getChartDate());
 		assertNotNull(note.getCategory());
 		assertNotNull(note.getDescription());
