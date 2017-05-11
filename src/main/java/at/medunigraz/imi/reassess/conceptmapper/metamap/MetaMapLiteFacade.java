@@ -81,7 +81,7 @@ public class MetaMapLiteFacade implements ConceptMapper {
 
 	private List<Entity> process(String text) {
 		int length = text.length();
-		LOG.debug("Processing \"{}\"...", text.substring(0, Math.min(length, 20)));
+		LOG.trace("Processing \"{}\"...", text.substring(0, Math.min(length, 50)));
 
 		long start = System.currentTimeMillis();
 
