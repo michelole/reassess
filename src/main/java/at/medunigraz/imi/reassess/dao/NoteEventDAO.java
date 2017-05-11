@@ -35,7 +35,8 @@ public class NoteEventDAO {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<NoteEvent> criteria = cb.createQuery(NoteEvent.class);
 		Root<NoteEvent> root = criteria.from(NoteEvent.class);
-		criteria.select(root).orderBy(cb.asc(root.get("rowId")));
+		criteria.select(root).orderBy(cb.asc(root.get("subjectId")), cb.asc(root.get("admissionId")),
+				cb.asc(root.get("chartDate")), cb.asc(root.get("chartTime")), cb.asc(root.get("rowId")));
 		return em.createQuery(criteria).setFirstResult(first).setMaxResults(max).getResultList();
 	}
 }

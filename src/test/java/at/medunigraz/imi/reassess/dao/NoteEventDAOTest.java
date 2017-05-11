@@ -35,7 +35,7 @@ public class NoteEventDAOTest {
 		
 		assertEquals(pageSize, notes.size());
 		
-		assertEquals(1, notes.get(0).getRowId().intValue());
+		assertEquals(1678764, notes.get(0).getRowId().intValue());
 	}
 
 }

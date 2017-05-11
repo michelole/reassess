@@ -17,10 +17,10 @@ public class NoteEventIteratorTest {
 		NoteEventIterator iter = new NoteEventIterator();
 		
 		assertTrue(iter.hasNext());
-		assertEquals(1, iter.next().getRowId().intValue());
+		assertEquals(1678764, iter.next().getRowId().intValue());
 		
 		iter.fastForwardTo(1000);
-		assertEquals(1001, iter.next().getRowId().intValue());
+		assertEquals(1261069, iter.next().getRowId().intValue());
 		
 		// When reading the last results, it should have less elements than the pagesize.
 		int halfPage = NoteEventIterator.PAGESIZE / 2;
@@ -36,7 +36,7 @@ public class NoteEventIteratorTest {
 	
 	@Test
 	public void performanceTest() {
-		final int records = 1000;
+		final int records = 100;
 		
 		NoteEventIterator iter = new NoteEventIterator();
 		iter.fastForwardTo(COUNT - records);
@@ -47,7 +47,7 @@ public class NoteEventIteratorTest {
 		}
 		long end = System.currentTimeMillis();
 		
-		// Assuming that 1000 records will be read in less than 10 seconds...
+		// Assuming that 100 records will be read in less than 10 seconds...
 		assertThat(end - start, lessThan(10000l));
 	}
 
