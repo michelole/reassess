@@ -14,6 +14,7 @@ import at.medunigraz.imi.reassess.conceptmapper.metamap.MetaMapLiteFacade;
 @Entity
 @Table(name = "noteevents", schema = "mimiciii")
 public class NoteEvent {
+	
 	@Id
 	@Column(name = "row_id")
 	private Integer rowId;
@@ -48,6 +49,8 @@ public class NoteEvent {
 	@Column(name = "text")
 	private String text;
 	
+	private static final String DISCHARGE_SUMMARY = "Discharge summary";
+	
 	public List<String> getCUIs() {
 		return MetaMapLiteFacade.getInstance().map(getText());
 	}
@@ -58,6 +61,14 @@ public class NoteEvent {
 	
 	public String getAnnotatedText() {
 		return MetaMapLiteFacade.getInstance().annotate(getText());
+	}
+	
+	public boolean isDischargeSummary() {
+		if (getCategory().equals(DISCHARGE_SUMMARY)) {
+			return true;
+		}
+		
+		return false;
 	}
 
 	public Integer getRowId() {
