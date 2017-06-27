@@ -41,6 +41,8 @@ public class IntersectionEvaluator {
 			if (currentAddmissionId != addmissionId) {
 				Set<String> intersectCUIs = new HashSet<>(admissionCUIs);
 				intersectCUIs.retainAll(dischargeCUIs);
+				
+				LOG.trace(intersectCUIs);
 
 				int tp = intersectCUIs.size();
 				int fp = dischargeCUIs.size() - tp;
@@ -58,7 +60,7 @@ public class IntersectionEvaluator {
 				
 				clock.split();
 				float rate = i / (clock.getSplitTime() / 1000f);
-				LOG.info("Processed {} notes in {} ({} notes/sec).", i, clock.toSplitString(), rate);
+				LOG.debug("Processed {} notes in {} ({} notes/sec).", i, clock.toSplitString(), rate);
 			}
 
 			// We only consider the last discharge summary of one admission and
