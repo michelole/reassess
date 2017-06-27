@@ -81,7 +81,6 @@
 			<groupId>gov.nih.nlm.nls</groupId>
 			<artifactId>metamaplite</artifactId>
 			<version>3.1-SNAPSHOT</version>
-			<optional>true</optional>
 		</dependency>
 	</dependencies>
 </project>
