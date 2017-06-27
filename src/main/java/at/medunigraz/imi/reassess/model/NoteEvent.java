@@ -2,6 +2,7 @@ package at.medunigraz.imi.reassess.model;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import at.medunigraz.imi.reassess.conceptmapper.metamap.MetaMapLiteFacade;
 @Entity
 @Table(name = "noteevents", schema = "mimiciii")
 public class NoteEvent {
+	
 	@Id
 	@Column(name = "row_id")
 	private Integer rowId;
@@ -21,7 +23,7 @@ public class NoteEvent {
 	private Integer subjectId;
 
 	@Column(name = "hadm_id")
-	private Integer hospitalAdmissionId;
+	private Integer admissionId;
 
 	@Column(name = "chartdate")
 	private Date chartDate;
@@ -47,12 +49,26 @@ public class NoteEvent {
 	@Column(name = "text")
 	private String text;
 	
+	private static final String DISCHARGE_SUMMARY = "Discharge summary";
+	
 	public List<String> getCUIs() {
 		return MetaMapLiteFacade.getInstance().map(getText());
 	}
 	
+	public Set<String> getUniqueCUIs() {		
+		return MetaMapLiteFacade.getInstance().uniqueMap(getText());
+	}
+	
 	public String getAnnotatedText() {
 		return MetaMapLiteFacade.getInstance().annotate(getText());
+	}
+	
+	public boolean isDischargeSummary() {
+		if (getCategory().equals(DISCHARGE_SUMMARY)) {
+			return true;
+		}
+		
+		return false;
 	}
 
 	public Integer getRowId() {
@@ -63,8 +79,8 @@ public class NoteEvent {
 		return subjectId;
 	}
 
-	public Integer getHospitalAdmissionId() {
-		return hospitalAdmissionId;
+	public Integer getAdmissionId() {
+		return admissionId;
 	}
 
 	public Date getChartDate() {
@@ -101,7 +117,7 @@ public class NoteEvent {
 	
 	@Override
 	public String toString() {
-		return "NoteEvent [rowId=" + rowId + ", subjectId=" + subjectId + ", hospitalAdmissionId=" + hospitalAdmissionId
+		return "NoteEvent [rowId=" + rowId + ", subjectId=" + subjectId + ", hospitalAdmissionId=" + admissionId
 				+ ", chartDate=" + chartDate + ", chartTime=" + chartTime + ", storeTime=" + storeTime + ", category="
 				+ category + ", description=" + description + ", caregiverId=" + caregiverId + ", isError=" + isError
 				+ ", text=" + text.substring(0, 51) + "(...) ]";

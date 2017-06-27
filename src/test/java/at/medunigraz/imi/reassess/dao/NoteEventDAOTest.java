@@ -1,7 +1,10 @@
 package at.medunigraz.imi.reassess.dao;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+
+import java.util.List;
 
 import org.junit.Test;
 
@@ -15,12 +18,31 @@ public class NoteEventDAOTest {
 		NoteEvent note = noteDao.get(1);
 
 		assertNotNull(note.getSubjectId());
-		assertNotNull(note.getHospitalAdmissionId());
+		assertNotNull(note.getAdmissionId());
 		assertNotNull(note.getChartDate());
 		assertNotNull(note.getCategory());
 		assertNotNull(note.getDescription());
 		assertFalse(note.isError());
 		assertNotNull(note.getText());
+	}
+	
+	@Test
+	public void testList() {
+		final int pageSize = 10;
+		
+		NoteEventDAO noteDao = new NoteEventDAO();
+		List<NoteEvent> notes = noteDao.list(0, pageSize);
+		
+		assertEquals(pageSize, notes.size());
+		
+		assertEquals(1678764, notes.get(0).getRowId().intValue());
+	}
+	
+	@Test
+	public void testCount() {
+		NoteEventDAO noteDao = new NoteEventDAO();
+		long actual = noteDao.count();
+		assertEquals(1851344, actual);
 	}
 
 }

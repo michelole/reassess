@@ -1,5 +1,6 @@
 package at.medunigraz.imi.reassess.model;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -24,5 +25,13 @@ public class NoteEventTest {
 		
 		// Annotated text should be longer than original.
 		assertTrue(note.getAnnotatedText().length() > note.getText().length());
+	}
+	
+	@Test
+	public void testIsDischargeSummary() {
+		NoteEventDAO noteDao = new NoteEventDAO();
+
+		assertTrue(noteDao.get(1).isDischargeSummary());
+		assertFalse(noteDao.get(59653).isDischargeSummary());
 	}
 }
