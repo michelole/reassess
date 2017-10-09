@@ -1,5 +1,6 @@
 package at.medunigraz.imi.reassess.conceptmapper.metamap;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,23 +22,39 @@ public class MetaMapLiteFacade implements ConceptMapper {
 
 	private static final Logger LOG = LogManager.getLogger();
 
-	private static final MetaMapLiteFacade instance = new MetaMapLiteFacade();
+	private static MetaMapLiteFacade instance = null;
 
 	private MetaMapLite metaMapLiteInst;
 
-	private Properties properties;
+	private static Properties properties;
 
 	public static MetaMapLiteFacade getInstance() {
+		if (instance == null) {
+			instance = new MetaMapLiteFacade();
+		}
 		return instance;
 	}
 
 	private MetaMapLiteFacade() {
 		LOG.info("Building MetaMap instance...");
+		
+		initProperties();
 
+		try {
+			metaMapLiteInst = new MetaMapLite(properties);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		LOG.info("Building MetaMap instance finished.");
+	}
+	
+	private static void initProperties() {		
 		properties = MetaMapLite.getDefaultConfiguration();
 
 		String configPropertyFilename = System.getProperty("metamaplite.property.file",
-				getClass().getResource("/metamaplite.properties").getFile());
+				MetaMapLiteFacade.class.getResource("/metamaplite.properties").getFile());
 
 		try {
 			properties.load(new FileReader(configPropertyFilename));
@@ -48,15 +65,11 @@ public class MetaMapLiteFacade implements ConceptMapper {
 
 		MetaMapLite.expandModelsDir(properties);
 		MetaMapLite.expandIndexDir(properties);
-
-		try {
-			metaMapLiteInst = new MetaMapLite(properties);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		LOG.info("Building MetaMap instance finished.");
+	}
+	
+	public static boolean isModelsDirValid() {
+		initProperties();
+		return (new File(properties.getProperty("opennlp.models.directory"))).canRead();
 	}
 
 	/*

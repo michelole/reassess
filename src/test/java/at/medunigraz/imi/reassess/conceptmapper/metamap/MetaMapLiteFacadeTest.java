@@ -7,11 +7,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 
 public class MetaMapLiteFacadeTest {
 	
 	private static final String BREAST_CANCER = "The patient has breast cancer.";
+	
+	@Before
+	public void setUp() {
+		Assume.assumeTrue(MetaMapLiteFacade.isModelsDirValid());
+	}
 
 	@Test
 	public void testMap() {
