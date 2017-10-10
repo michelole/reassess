@@ -2,5 +2,9 @@ language: java
 jdk:
   - oraclejdk8
   - oraclejdk9
+services:
+  - postgresql
+before_script:
+  - psql -c 'create database mimic;' -U postgres
 after_success:
   - mvn clean test jacoco:report coveralls:report
