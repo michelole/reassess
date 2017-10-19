@@ -6,5 +6,6 @@ services:
   - postgresql
 before_script:
   - psql -c 'create database mimic;' -U postgres
+script: mvn test -Pci -B
 after_success:
   - mvn clean test jacoco:report coveralls:report

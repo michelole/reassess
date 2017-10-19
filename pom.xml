@@ -14,8 +14,31 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
+	<profiles>
+		<profile>
+			<id>ci</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>2.19.1</version>
+						<configuration>
+							<excludes>
+								<exclude>**/NoteEventDAOTest.java</exclude>
+								<exclude>**/NoteEventIteratorTest.java</exclude>
+								<exclude>**/NoteEventTest.java</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
 	<build>
 		<plugins>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -113,5 +136,5 @@
 			<url>s3://maven.imi.medunigraz.at/release</url>
 		</repository>
 	</repositories>
-	
+
 </project>
