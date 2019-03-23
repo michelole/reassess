@@ -10,3 +10,6 @@ before_script:
 script: mvn test -Pci -B
 after_success:
   - mvn clean test -Pci jacoco:report coveralls:report
+cache:
+  directories:
+  - $HOME/.m2
